@@ -1,18 +1,46 @@
 <?php
 
-	//include main functionity (DB connect, etc)
-	require_once($_SERVER['DOCUMENT_ROOT'].'cloud/models/main/index.php');
+	//include model func)
+	require_once($_SERVER['DOCUMENT_ROOT'].'cloud/models/chat/index.php');
 	
-	function addGetChat($userN, $mes){
 
-		dbQuery("INSERT INTO chat (username, message) VALUES ('$userN', '$mes')");
-		$chatHistory = dbMassData("SELECT * FROM chat ORDER BY timestamp DESC LIMIT 10");
-		$resp  = array("status"=>"success", "reason"=>"chat added", "data"=>$chatHistory);
-		return($resp);
+	extract($_REQUEST);
+
+	if(!isset($userN)){
+
+		$resp = array("status"=>"fail", "reason"=> "please send userN request header parameter");
+		echo(json_encode($resp));
+		return;
 	}
-	
+	if(!isset($mes)){
 
+		$resp = array("status"=>"fail", "reason"=> "please send message request header parameter");
+		echo(json_encode($resp));
+		exit;
+	}
 
+	if(!isset($action)){
 
+		$resp = array("status"=>"fail", "reason"=> "please send action request header parameter");
+		echo(json_encode($resp));
+		exit;
+	}
+
+	//made it
+	switch($action){
+
+		case "addGet":
+
+			addGetChat($userN, $mes);
+		break;
+
+		default:
+
+			$resp = array("status"=>"fail", "reason"=> "please send userN request header parameter");
+			echo(json_encode($resp));
+		return;
+
+		break;
+	}
 
 ?>
