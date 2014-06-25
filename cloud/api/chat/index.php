@@ -30,8 +30,10 @@
 	switch($action){
 
 		case "addGet":
+			$res= addGetChat($userN, $mes);
+			echo(json_encode($res));
 
-			addGetChat($userN, $mes);
+			
 		break;
 
 		default:
